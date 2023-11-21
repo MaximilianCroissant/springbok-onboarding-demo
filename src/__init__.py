@@ -12,9 +12,13 @@ else:
     # When we're distributing a production version of the component, we'll
     # replace the `url` param with `path`, and point it to the component's
     # build directory:
-    parent_dir = os.path.dirname(os.path.abspath(__file__))
-    build_dir = os.path.join(parent_dir, "frontend/build")
-    _component_func = components.declare_component("vite_app", path=build_dir)
+    # parent_dir = os.path.dirname(os.path.abspath(__file__))
+    # build_dir = os.path.join(parent_dir, "frontend/build")
+    # _component_func = components.declare_component("vite_app", path=build_dir)
+    _component_func = components.declare_component(
+    "vite_app",
+    url="https://onboarding-demo-frontend.vercel.app/",
+    )
 
 
 # Create a wrapper function for the component. This is an optional

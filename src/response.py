@@ -10,25 +10,26 @@ SCHEMA_FILE_PATHS = [os.path.join(os.getcwd(), 'data', 'prompts', 'personal.md')
                      os.path.join(os.getcwd(), 'data', 'prompts', 'case.md')]
 FIRST_MESSAGES = ['Hello! Let\'s get started. May I have your full name, please?',
 "Thank you for your input so far. Let's get over the next section. Can you please specify the type of case you're reaching out for? E.g., family law, criminal defense, personal injury, etc."]
-
-with open(FILE_PATH, 'r', encoding='utf-8') as file:
-    INITIAL_PROMPT = file.read()
-with open(SCHEMA_FILE_PATHS[0], 'r', encoding='utf-8') as file:
-    INITIAL_PROMPT += file.read()
-
-INITIAL_MEMORY = [
-    {"content": INITIAL_PROMPT, "role": "system"},
-    {"content": FIRST_MESSAGES[0], "role": "assistant"}
-]
-
-OPEN_AI_KEY = os.getenv('OPENAI_API_KEY')
-
 # AZURE
 openai.api_key = os.getenv('AZURE_KEY')
 openai.api_base = os.getenv('AZURE_ENDPOINT')
 openai.api_type = 'azure'
 openai.api_version = os.getenv('AZURE_API_VERSION')
 DEPLOYMENT_NAME=os.getenv('AZURE_NAME')
+
+    
+def read_initial_prompts() -> str:
+    prompt = ""
+    for path in [FILE_PATH, SCHEMA_FILE_PATHS[0]]:
+        with open(path, 'r', encoding='utf-8') as file:
+            prompt += file.read()
+    return prompt
+
+INITIAL_PROMPT = read_initial_prompts()
+INITIAL_MEMORY = [
+    {"content": INITIAL_PROMPT, "role": "system"},
+    {"content": FIRST_MESSAGES[0], "role": "assistant"}
+]
 
 def init_response_session() -> None:
     if "memory" not in st.session_state:
@@ -40,12 +41,11 @@ def init_response_session() -> None:
     if 'tokens' not in st.session_state:
         st.session_state['tokens'] = 0      
         
-def save_field(property, value):
+def save_field(property, value) -> str:
     st.session_state['user_data'][property] = value
-
     return f"{property} with value {value} was saved."
 
-def validate_overall():
+def validate_overall() -> str:
     sec = st.session_state['curr_section'] + 1
     if sec >= len(FIRST_MESSAGES):
         return "Thank you for filling out the form. All sections are now complete!"
@@ -73,12 +73,11 @@ def orchestrate_call(choice):
     }     
     function_name = choice['message']['function_call']['name']
     function_to_call = available_functions[function_name]
-    function_args = choice['message']['function_call']['arguments']
-    function_args = json.loads(function_args)
-                    
-    function_response = function_to_call(function_args['property'], function_args['value'])
+    if not function_to_call:
+       raise ValueError(f"Function {function_name} not found.")
 
-    return function_response
+    function_args = json.loads(choice['message']['function_call']['arguments'])                    
+    return function_to_call(function_args['property'], function_args['value'])
 
 def get_response(query : str):
     conversation_history = st.session_state['memory'].copy()
@@ -96,8 +95,8 @@ def get_response(query : str):
         }
         ],
         temperature=0)
-    results = ""
     
+    results = ""
     for choice in response['choices']:
         if 'message' in choice:
             if 'function_call' in choice['message']:
@@ -137,4 +136,6 @@ def get_response(query : str):
     data = st.session_state['user_data']
     response_data = LLMResponse(response=results, user_data=data)
     return response_data
+
+
     
