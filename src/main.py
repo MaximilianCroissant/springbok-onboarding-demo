@@ -2,7 +2,7 @@ import streamlit as st
 from pydantic import BaseModel
 import uuid
 
-from src import vite_app
+from vite_component import vite_app
 from response import get_response, init_response_session
 
 class DataModel(BaseModel):
