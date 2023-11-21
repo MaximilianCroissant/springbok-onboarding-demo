@@ -1,8 +1,7 @@
 import os
 import openai
 import json
-import time
-from models import FunctionParameters, LLMResponse
+from models import LLMResponse
 import streamlit as st
 
 FILE_PATH = os.path.join(os.getcwd(), 'data', 'prompts', 'base.md')
@@ -11,11 +10,12 @@ SCHEMA_FILE_PATHS = [os.path.join(os.getcwd(), 'data', 'prompts', 'personal.md')
 FIRST_MESSAGES = ['Hello! Let\'s get started. May I have your full name, please?',
 "Thank you for your input so far. Let's get over the next section. Can you please specify the type of case you're reaching out for? E.g., family law, criminal defense, personal injury, etc."]
 # AZURE
-openai.api_key = os.getenv('AZURE_KEY')
-openai.api_base = os.getenv('AZURE_ENDPOINT')
-openai.api_type = 'azure'
-openai.api_version = os.getenv('AZURE_API_VERSION')
-DEPLOYMENT_NAME=os.getenv('AZURE_NAME')
+# openai.api_key = os.getenv('AZURE_KEY')
+# openai.api_base = os.getenv('AZURE_ENDPOINT')
+# openai.api_type = 'azure'
+# openai.api_version = "2023-07-01-preview"
+# DEPLOYMENT_NAME=os.getenv('AZURE_NAME')
+openai.api_key = os.environ['OPENAI_API_KEY']
 
     
 def read_initial_prompts() -> str:
@@ -76,23 +76,39 @@ def orchestrate_call(choice):
     if not function_to_call:
        raise ValueError(f"Function {function_name} not found.")
 
-    function_args = json.loads(choice['message']['function_call']['arguments'])                    
-    return function_to_call(function_args['property'], function_args['value'])
-
+    function_args = json.loads(choice['message']['function_call']['arguments'])
+    if 'property' in function_args:                    
+        return function_to_call(function_args['property'], function_args['value'])
+    return function_to_call()
+    
 def get_response(query : str):
     conversation_history = st.session_state['memory'].copy()
     conversation_history.append({"content": query, "role": "user"})
-            
+
     response = openai.ChatCompletion.create(
-        engine=DEPLOYMENT_NAME, 
+        #engine=DEPLOYMENT_NAME, 
+        model="gpt-4",
         messages=conversation_history, 
         max_tokens=4000,
         functions=[
         {
-          "name": "save_field",
-          "description": "Save the validated user information",
-          "parameters": FunctionParameters.model_json_schema()
-        }
+            "name": "save_field",
+            "description": "Save the validated user information",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "property": {
+                        "type": "string",
+                        "description": "The property name, e.g. fullName",
+                    },
+                    "value": {
+                    "type": "string",
+                    "description": "The validated information provided by the user",
+                },
+                },
+                "required": ["property", "value"],
+            },
+        },  
         ],
         temperature=0)
     
@@ -105,12 +121,12 @@ def get_response(query : str):
                     "role": "function",
                     "name": choice['message']['function_call']['name'],
                     "content": response
-                })
-                
+                })         
                 
                 #Second Response
                 secondResponse = openai.ChatCompletion.create(
-                    engine=DEPLOYMENT_NAME, 
+                    #engine=DEPLOYMENT_NAME, 
+                    model="gpt-4",
                     messages=conversation_history, 
                     functions=[{
                     "name": "validate_overall",
@@ -128,6 +144,7 @@ def get_response(query : str):
                             conversation_history.append(choice['message'])
                             results += choice['message']['content']
                             st.session_state['memory'] = conversation_history
+                            
             else:
                 conversation_history.append(choice['message'])
                 results += choice['message']['content']

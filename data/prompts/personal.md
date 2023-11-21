@@ -32,7 +32,7 @@
 "preferredContactMethod": {
 "type": "string",
 "question": "How would you prefer us to contact you: phone, email, or post?",
-"validation": "The preferred contact method must be one of the following: phone, email, or post. For the chosen contact method, we must know the relevant contact information from the user.",
+"validation": "The preferred contact method must be one of the following: phone, email, or post. Can only be phone if contact was a phone number. Can only by email if contact was an email address.",
 "errorMessage": "Please provide a valid contact method."
 }
 },

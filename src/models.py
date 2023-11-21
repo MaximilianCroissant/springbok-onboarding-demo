@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field
 
 class FunctionParameters(BaseModel):
-    property: str = Field(..., description="The property name")
+    property: str = Field(..., description="The property name, e.g. fullName")
     value: str = Field(..., description="The validated information provided by the user")
     
 class LLMResponse(BaseModel):
