@@ -17,7 +17,7 @@ else:
     # _component_func = components.declare_component("vite_app", path=build_dir)
     _component_func = components.declare_component(
     "vite_app",
-    url="https://onboarding-demo-frontend.vercel.app/",
+    url="https://onboarding-demo-frontend.vercel.app",
     )
 
 
