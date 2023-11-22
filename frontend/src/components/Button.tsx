@@ -53,7 +53,7 @@ const StyledButton = styled.button<ButtonProps>`
 `;
 
 export interface ButtonProps
-  extends React.TextareaHTMLAttributes<HTMLButtonElement> {
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   color?: string;
   textColor?: string;
   variant?: "primary" | "secondary" | "tertiary";

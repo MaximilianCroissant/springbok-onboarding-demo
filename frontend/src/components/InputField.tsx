@@ -32,6 +32,11 @@ const StyledTextArea = styled.textarea`
   font-family: Rubik, -apple-system, system-ui, Segoe UI, Helvetica Neue,
     sans-serif;
   border-radius: 25px !important;
+
+  &::placeholder,
+  ::-webkit-input-placeholder {
+    color: ${Palette.text.disabled};
+  }
 `;
 
 interface InputFieldProps

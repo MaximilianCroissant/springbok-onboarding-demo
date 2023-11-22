@@ -14,7 +14,7 @@
 "fullName": {
 "type": "string",
 "question": "Hello! Let's get started. May I have your full name, please?",
-"validation": "The full name must include both first and last name with a minimum of 5 characters in total.",
+"validation": "The full name must include a valid first and last name and no joke names.",
 "errorMessage": "For our records, we need your complete name."
 },
 "contact": {

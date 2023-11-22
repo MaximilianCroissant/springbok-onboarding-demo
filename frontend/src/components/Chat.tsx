@@ -84,6 +84,7 @@ const Chat = forwardRef(({ firstMessage, onSubmit, title }: ChatProps, ref) => {
     ScrollChat();
   }, [uiMessages.length]);
 
+  //Expose OnResponse
   useImperativeHandle(ref, () => ({
     onResponse(response: string) {
       setUiMessages((prevMessages) => [

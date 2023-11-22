@@ -33,6 +33,11 @@ const CustomObjectContainer = styled.div`
 
 const BottomContainer = styled.div`
   margin-bottom: 16px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 230px;
+  display: flex;
+  justify-content: space-between;
 `;
 
 const Logo = styled.img`
@@ -55,12 +60,18 @@ const Sidebar = React.memo(
     return (
       <StyledSidebar>
         <ImageContainer>
-          <Logo
-            src="/springbok.svg"
-            alt="Springbok Logo"
-            width="90"
-            height="auto"
-          />
+          <a
+            href="https://springbok.ai/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Logo
+              src="/springbok.svg"
+              alt="Springbok Logo"
+              width="90"
+              height="auto"
+            />
+          </a>
         </ImageContainer>
         <InfoContainer>
           <Typography
@@ -76,9 +87,24 @@ const Sidebar = React.memo(
           <CustomObjectContainer>{children}</CustomObjectContainer>
         </InfoContainer>
         <BottomContainer>
-          <Typography variant="body1" color={Palette.primary.contrastText}>
-            This is space for links (privacy? T&S?).
-          </Typography>
+          <a
+            href="https://springbok.ai/privacy"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Typography variant="body1" color={Palette.primary.contrastText}>
+              Privacy
+            </Typography>
+          </a>
+          <a
+            href="https://springbok.ai/terms"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Typography variant="body1" color={Palette.primary.contrastText}>
+              Terms & Conditions
+            </Typography>
+          </a>
         </BottomContainer>
       </StyledSidebar>
     );

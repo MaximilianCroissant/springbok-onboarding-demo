@@ -20,22 +20,22 @@ export const Palette = {
   },
   warning: {
     main: "#F39C81",
-    light: "#FEEADE",
+    muted: "#FEEADE",
     contrastText: "#E56F4A",
   },
   success: {
     main: "#7BC197",
-    light: "#E6F2DF",
+    muted: "#E6F2DF",
     contrastText: "#2B9956",
   },
   error: {
     main: "#ED7373",
-    light: "#FFDAD8",
+    muted: "#FFDAD8",
     contrastText: "#DB4D4D",
   },
   info: {
     light: "#EAF4F2",
-    main: "#7BA99E",
+    muted: "#7BA99E",
     contrastText: "#386C67",
   },
   background: {
@@ -44,8 +44,8 @@ export const Palette = {
   },
   text: {
     primary: "#130934",
-    secondary: "#08f6fc",
-    disabled: "#8C7E8D",
+    secondary: "#71fcff",
+    disabled: "#B6B6B6",
   },
   divider: "#D9D9D9",
 };
