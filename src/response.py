@@ -5,10 +5,8 @@ from models import LLMResponse
 import streamlit as st
 
 FILE_PATH = os.path.join(os.getcwd(), 'data', 'prompts', 'base.md')
-SCHEMA_FILE_PATHS = [os.path.join(os.getcwd(), 'data', 'prompts', 'personal.md'),
-                     os.path.join(os.getcwd(), 'data', 'prompts', 'case.md')]
-FIRST_MESSAGES = ['Hello! Let\'s get started. May I have your full name, please?',
-"Thank you for your input so far. Let's get over the next section. Can you please specify the type of case you're reaching out for? E.g., family law, criminal defense, personal injury, etc."]
+SCHEMA_FILE_PATHS = [os.path.join(os.getcwd(), 'data', 'prompts', 'onboarding.md')]
+FIRST_MESSAGES = ['Hello! Let\'s get started. May I have your full name, please?']
 # AZURE
 # openai.api_key = os.getenv('AZURE_KEY')
 # openai.api_base = os.getenv('AZURE_ENDPOINT')
@@ -48,7 +46,7 @@ def save_field(property, value) -> str:
 def validate_overall() -> str:
     sec = st.session_state['curr_section'] + 1
     if sec >= len(FIRST_MESSAGES):
-        return "Thank you for filling out the form. All sections are now complete!"
+        return "Thank you for filling out the form. All sections are now complete! We will be in contact soon."
 
     # Slotting new schema into prompt
     with open(FILE_PATH, 'r', encoding='utf-8') as file:

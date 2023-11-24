@@ -15,11 +15,11 @@ const StyledH1 = styled.h1<TypographyProps>`
       ? Palette.text.disabled
       : Palette.text.primary};
 
-  @media (max-width: ${Breakpoints.lg}) {
+  @media (max-width: ${Breakpoints.lg}px) {
     font-size: ${(props) => (props.fontSize ? props.fontSize : "3.2rem")};
   }
-  @media (max-width: ${Breakpoints.md}) {
-    font-size: ${(props) => (props.fontSize ? props.fontSize : "3rem")};
+  @media (max-width: ${Breakpoints.md}px) {
+    font-size: ${(props) => (props.fontSize ? props.fontSize : "2.8rem")};
   }
 `;
 

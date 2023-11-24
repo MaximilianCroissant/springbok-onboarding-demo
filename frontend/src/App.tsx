@@ -77,16 +77,20 @@ const App = (props: AppProps) => {
           <Card color={Palette.background.paper}>
             <Typography variant="h6">User information</Typography>
             <div>
-              <Typography variant="body1">
-                {backendData &&
-                  backendData.user_data &&
-                  Object.keys(backendData.user_data).map((key) => (
-                    <DataRow key={key}>
-                      <DataCol>{key}</DataCol>
-                      <DataCol>{backendData.user_data[key]}</DataCol>
-                    </DataRow>
-                  ))}
-              </Typography>
+              {backendData &&
+                backendData.user_data &&
+                Object.keys(backendData.user_data).map((key) => (
+                  <DataRow key={key}>
+                    <DataCol style={{ textAlign: "left" }}>
+                      <Typography variant="body1">{key}</Typography>
+                    </DataCol>
+                    <DataCol style={{ textAlign: "right" }}>
+                      <Typography variant="body1">
+                        {backendData.user_data[key]}
+                      </Typography>
+                    </DataCol>
+                  </DataRow>
+                ))}
             </div>
           </Card>
         </Sidebar>

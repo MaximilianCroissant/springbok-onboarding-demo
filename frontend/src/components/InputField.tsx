@@ -14,7 +14,7 @@ const StyledInputField = styled.div`
   background-color: white;
   border: 1px solid ${Palette.primary.main}10;
   box-shadow: rgba(0, 0, 0, 0.07) 0px 16px 48px;
-  border-radius: 25px !important;
+  border-radius: 15px !important;
 `;
 
 const StyledTextArea = styled.textarea`
@@ -31,7 +31,7 @@ const StyledTextArea = styled.textarea`
   font-size: 1rem;
   font-family: Rubik, -apple-system, system-ui, Segoe UI, Helvetica Neue,
     sans-serif;
-  border-radius: 25px !important;
+  border-radius: 15px !important;
 
   &::placeholder,
   ::-webkit-input-placeholder {

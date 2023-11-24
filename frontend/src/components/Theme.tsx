@@ -51,10 +51,10 @@ export const Palette = {
 };
 
 export const Breakpoints = {
-  xs: "0px",
-  sm: "420px",
-  md: "768px",
-  lg: "1300px",
-  xl: "1536px",
-  xxl: "2560px",
+  xs: 0,
+  sm: 420,
+  md: 768,
+  lg: 1300,
+  xl: 1536,
+  xxl: 2560,
 };

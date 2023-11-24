@@ -11,12 +11,20 @@ const StyledCard = styled.div<CardProps>`
     0px 0px 48px;
 `;
 
-export interface CardProps {
+export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   color?: string;
 }
 
-const Card = ({ color, children }: React.PropsWithChildren<CardProps>) => {
-  return <StyledCard color={color}>{children}</StyledCard>;
+const Card = ({
+  color,
+  children,
+  ...props
+}: React.PropsWithChildren<CardProps>) => {
+  return (
+    <StyledCard color={color} {...props}>
+      {children}
+    </StyledCard>
+  );
 };
 
 export default Card;

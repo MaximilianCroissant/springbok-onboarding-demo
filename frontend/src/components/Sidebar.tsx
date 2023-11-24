@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import Typography from "./Typography";
-import { Palette } from "./Theme";
+import { Breakpoints, Palette } from "./Theme";
 
 const StyledSidebar = styled.div`
-  height: 100%;
+  height: 100vh;
   width: 500px;
   background-color: #130934;
   display: flex;
@@ -12,23 +12,55 @@ const StyledSidebar = styled.div`
   justify-content: space-between;
   align-items: center;
   box-shadow: rgba(0, 0, 0, 0.16) 16px 0px 48px;
+
+  @media only screen and (max-width: ${Breakpoints.md}px) {
+    display: none;
+  }
+`;
+
+const SidebarContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 96%;
 `;
 
 const ImageContainer = styled.div`
   margin-top: 32px;
+  display: flex;
+  justify-content: center;
 `;
 
 const InfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   margin-top: 64px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 300px;
+  padding-left: 24px;
+  padding-right: 24px;
   text-align: center;
-  height: -webkit-fill-available;
 `;
 
 const CustomObjectContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   margin-top: 64px;
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+`;
+
+const ScrollDiv = styled.div`
+  overflow-y: scroll;
+  height: 100%;
+  width: 100%;
+  padding-right: 24px;
+`;
+
+const CustomContentContainer = styled.div`
+  padding: 0px 16px 0px 20px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const BottomContainer = styled.div`
@@ -55,10 +87,14 @@ export interface SidebarProps extends React.HTMLAttributes<HTMLBaseElement> {
   description?: string;
 }
 
-const Sidebar = React.memo(
-  ({ title, description, children }: React.PropsWithChildren<SidebarProps>) => {
-    return (
-      <StyledSidebar>
+const Sidebar = ({
+  title,
+  description,
+  children,
+}: React.PropsWithChildren<SidebarProps>) => {
+  return (
+    <StyledSidebar>
+      <SidebarContent>
         <ImageContainer>
           <a
             href="https://springbok.ai/"
@@ -84,31 +120,34 @@ const Sidebar = React.memo(
           <Typography variant="body1" color={Palette.primary.contrastText}>
             {description}
           </Typography>
-          <CustomObjectContainer>{children}</CustomObjectContainer>
         </InfoContainer>
-        <BottomContainer>
-          <a
-            href="https://springbok.ai/privacy"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Typography variant="body1" color={Palette.primary.contrastText}>
-              Privacy
-            </Typography>
-          </a>
-          <a
-            href="https://springbok.ai/terms"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Typography variant="body1" color={Palette.primary.contrastText}>
-              Terms & Conditions
-            </Typography>
-          </a>
-        </BottomContainer>
-      </StyledSidebar>
-    );
-  }
-);
-
+        <CustomObjectContainer>
+          <ScrollDiv>
+            <CustomContentContainer>{children}</CustomContentContainer>
+          </ScrollDiv>
+        </CustomObjectContainer>
+      </SidebarContent>
+      <BottomContainer>
+        <a
+          href="https://springbok.ai/privacy"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Typography variant="body1" color={Palette.primary.contrastText}>
+            Privacy
+          </Typography>
+        </a>
+        <a
+          href="https://springbok.ai/terms"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Typography variant="body1" color={Palette.primary.contrastText}>
+            Terms & Conditions
+          </Typography>
+        </a>
+      </BottomContainer>
+    </StyledSidebar>
+  );
+};
 export default Sidebar;
